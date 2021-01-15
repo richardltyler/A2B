@@ -1,0 +1,32 @@
+.trip-display {
+  background: grey;
+  height: 100%;
+  width: 100%;
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: 
+    "headline headline headline headline"
+    "sidebar card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid"
+  ;
+
+  &--headline {
+    background: $yellow;
+    grid-area: headline;
+  }
+
+  &--sidebar {
+    background: $light-gray;
+    grid-area: sidebar;
+  }
+
+  &--card-grid {
+    background: $green;
+    grid-area: card-grid;
+  }
+}
+
