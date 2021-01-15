@@ -1,5 +1,4 @@
 .trip-display {
-  background: grey;
   height: 100%;
   width: 100%;
   display: grid; 
@@ -15,13 +14,16 @@
   ;
 
   &--headline {
-    background: $yellow;
     grid-area: headline;
+    color: $green;
+    padding-left: 1rem;
+    text-decoration: underline;
   }
 
   &--sidebar {
     background: $light-gray;
     grid-area: sidebar;
+    padding-left: 1rem;
   }
 
   &--card-grid {
