@@ -1,0 +1,37 @@
+.trip-display {
+  padding-left: 1rem;
+  height: 100%;
+  width: 100%;
+  display: grid; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 80px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: 
+    "headline headline headline headline headline headline"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+  ;
+
+  &--headline {
+    grid-area: headline;
+    color: $green;
+    padding-left: 1rem;
+    text-decoration: underline;
+  }
+
+  &--sidebar {
+    grid-area: sidebar;
+    padding-left: 1rem;
+
+  }
+
+  &--card-grid {
+    grid-area: card-grid;
+  }
+}
+
