@@ -1,0 +1,21 @@
+.trip-display--card-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  // background: yellow;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  article {
+    background: $light-gray;
+    height: 23rem;
+    width: 18rem;
+    margin: 0rem 1rem 1rem 0rem;
+    border-radius: .3rem;
+  }
+}

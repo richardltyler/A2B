@@ -1,16 +1,20 @@
 .trip-display {
+  padding-left: 1rem;
   height: 100%;
   width: 100%;
   display: grid; 
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas: 
-    "headline headline headline headline"
-    "sidebar card-grid card-grid card-grid"
-    "sidebar card-grid card-grid card-grid"
-    "sidebar card-grid card-grid card-grid"
-    "sidebar card-grid card-grid card-grid"
-    "sidebar card-grid card-grid card-grid"
+    "headline headline headline headline headline headline"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
+    "sidebar card-grid card-grid card-grid card-grid card-grid"
   ;
 
   &--headline {
@@ -21,14 +25,12 @@
   }
 
   &--sidebar {
-    background: $light-gray;
     grid-area: sidebar;
     padding-left: 1rem;
 
   }
 
   &--card-grid {
-    background: $green;
     grid-area: card-grid;
   }
 }
