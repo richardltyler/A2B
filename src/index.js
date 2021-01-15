@@ -1,4 +1,4 @@
-import './css/base.scss';
+import './css/index.scss';
 import './scripts.js';
 import './fetch.js'
 
