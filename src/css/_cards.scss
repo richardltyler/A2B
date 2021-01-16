@@ -17,14 +17,10 @@
   height: 23rem;
   width: 18rem;
   margin: 0rem 1rem 1rem 0rem;
-  @include rounded-corners(0.3rem)
+  @include rounded-corners(0.3rem);
   box-shadow: 10px 10px 50px $light-gray inset;
   display: block;
   padding: 1rem;
-
-  .card--title{
-
-  }
 
   img {
     height: 10rem;
