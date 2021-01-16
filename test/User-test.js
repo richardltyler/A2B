@@ -3,7 +3,7 @@ const expect = chai.expect;
 
 import User from '../src/User';
 
-describe.only('User', function() {
+describe('User', function() {
   let traveler1;
   let traveler2;
   let user1;
