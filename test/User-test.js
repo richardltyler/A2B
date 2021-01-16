@@ -58,4 +58,14 @@ describe('User', function() {
   it.skip('should be able to take another travelerType', function () {
     expect(user2.travelerType).to.eq(traveler2.travelerType);
   })
+
+  it.skip('should start out with no trips', function() {
+    expect(user1.trips).to.be.undefined;
+  })
+
+  it.skip('should be get the users trips', function() {
+    user1.getTripData();
+
+    expect(user1.trips).to.deep.equal();
+  })
 })
