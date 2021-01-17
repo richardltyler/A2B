@@ -56,7 +56,7 @@ function createTripCard(trip) {
   newTripCard.querySelector('article.trip-display--card').id = trip.id;
   newTripCard.querySelector('h4.card--title').innerText = trip.destination.destination;
   newTripCard.querySelector('h5.departure').innerText = trip.date;
-  // newTripCard.querySelector('h5.duration').innerText = ;
+  newTripCard.querySelector('h5.duration').innerText = `${trip.duration} days`;
   newTripCard.querySelector('h5.card--trip-status').innerText = trip.status.toUpperCase();
   cardImage.src = trip.destination.image;
   cardImage.alt = trip.destination.alt;

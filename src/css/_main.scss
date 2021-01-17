@@ -35,5 +35,26 @@
   }
 }
 
+.sidebar--expenses {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: $green;
+
+  h3 {
+    width: 50%;
+    font-size: 1rem;
+    margin: 0px;
+    border-bottom: 2px solid $dark-gray;
+  }
+
+  h4 {
+    width: 50%;
+    margin-top: 0.5rem;
+    font-size: 2rem;
+  }
+}
 
 
