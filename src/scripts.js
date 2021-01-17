@@ -24,5 +24,4 @@ Promise.all([users, trips])
 function generateUser(userData) {
   const randomIndex = getRandomIndex(userData);
   currentUser = new User(userData[randomIndex]);
-  console.log(currentUser)
 }
