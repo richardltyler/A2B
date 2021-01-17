@@ -24,6 +24,31 @@ class Trip {
 
     return `$${formattedCost}`;
   }
+
+  getTripTimeline(todaysDate) {
+    const durationTime = this.duration * 86400000;
+
+    const today = todaysDate.getTime();
+    const departureDate = this.getUnixDate();
+    const returnDate = new Date(departureDate + durationTime).getTime();
+
+    if (today < departureDate) {
+      this.timeline = 'upcoming';
+
+    } else if (today > departureDate && today < returnDate) {
+      this.timeline = 'current';
+
+    } else if (today > departureDate) {
+      this.timeline = 'past';
+
+    }
+
+    console.log(this.timeline)
+  }
+
+  getUnixDate() {
+    return new Date(this.date).getTime();
+  }
 }
 
 module.exports = Trip;
