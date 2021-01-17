@@ -3,12 +3,10 @@ import './css/index.scss';
 import fetchAPI from './fetch';
 
 import User from './User';
-// import Destination from './Destination';
 import Trip from './Trip';
 
 let currentUser;
 let todaysDate = new Date();
-// console.log(todaysDate.toLocaleDateString())
 
 function getRandomIndex(dataset) {
   return Math.floor(Math.random() * dataset.length);
@@ -21,11 +19,12 @@ const destinations = fetchAPI.getData('destinations');
 Promise.all([users, trips, destinations])
   .then(value => {
     generateUser(value[0].travelers);
-    currentUser.getTripData(generateTrips(value[1].trips, value[2].destinations));
+    const trips = generateTrips(value[1].trips, value[2].destinations);
+    currentUser.getTripData(trips);
     currentUser.trips.forEach(trip => {
-      createTripCard(trip)
-      trip.getTripTimeline(todaysDate);
+      createTripCard(trip);
     });
+    displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
   });
 
 
@@ -63,4 +62,9 @@ function createTripCard(trip) {
   cardImage.alt = trip.destination.alt;
 
   cardContainer.appendChild(newTripCard);
+}
+
+function displayLastYearsExpenses(cost) {
+  const costDisplay = document.getElementById('cost-display');
+  costDisplay.innerText = cost;
 }
