@@ -6,7 +6,12 @@ class User {
   }
 
   getTripData(tripData) {
-    this.trips = tripData;
+    this.trips = tripData.filter(trip => trip.userID === this.id);
+  }
+
+  getFirstName() {
+    const names = this.name.split(' ');
+    return names[0];
   }
 }
 
