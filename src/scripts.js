@@ -54,6 +54,7 @@ function createTripCard(trip) {
   newTripCard.querySelector('img.card--image').src = trip.destination.image;
   newTripCard.querySelector('h5.departure').innerText = trip.date;
   // newTripCard.querySelector('h5.duration').innerText = ;
+  newTripCard.querySelector('h5.card--trip-status').innerText = trip.status.toUpperCase();
 
   cardContainer.appendChild(newTripCard);
 }
