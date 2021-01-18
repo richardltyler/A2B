@@ -3,7 +3,7 @@ class Destination {
     this.id = destinationData.id;
     this.location = destinationData.destination;
     this.estimatedLodgingCostPerDay = destinationData.estimatedLodgingCostPerDay;
-    this.d = destinationData.estimatedFlightCostPerPerson;
+    this.estimatedFlightCostPerPerson = destinationData.estimatedFlightCostPerPerson;
     this.image = destinationData.image;
     this.altText = destinationData.alt;
   }

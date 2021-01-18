@@ -3,7 +3,7 @@
   height: 100%;
   width: 100%;
   display: grid; 
-  grid-template-columns: 250px 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 80px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas: 
     "headline headline headline headline headline headline"
@@ -34,27 +34,4 @@
     grid-area: card-grid;
   }
 }
-
-.sidebar--expenses {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: $green;
-
-  h3 {
-    width: 50%;
-    font-size: 1rem;
-    margin: 0px;
-    border-bottom: 2px solid $dark-gray;
-  }
-
-  h4 {
-    width: 50%;
-    margin-top: 0.5rem;
-    font-size: 2rem;
-  }
-}
-
 
