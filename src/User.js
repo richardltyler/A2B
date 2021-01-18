@@ -12,13 +12,7 @@ class User {
 
   getTripData(tripData) {
     const usersTrips = tripData.filter(trip => trip.userID === this.id);
-    this.trips = this.sortTripsByDate(usersTrips);
-  }
-
-  sortTripsByDate(trips) {
-    const sortedTrips = trips.sort((a, b) => a.getUnixDepartureDate() - b.getUnixDepartureDate());
-
-    return sortedTrips;
+    this.trips = usersTrips.sort((a, b) => a.getUnixDepartureDate() - b.getUnixDepartureDate());
   }
 
   getCostOfYearsTravel(currentDate) {
@@ -34,7 +28,7 @@ class User {
    getTripsFromPastYear(currentDate) {
     const currentYear = currentDate.getFullYear();
     const pastYearsTrips = this.trips.reduce((acc, trip) => {
-      const tripYear = new Date (trip.getUnixDepartureDate(currentDate)).getFullYear();
+      const tripYear = new Date(trip.date).getFullYear();
 
       if (tripYear === currentYear - 1) {
         acc.push(trip);
