@@ -6,7 +6,10 @@ import User from './User';
 import Destination from './Destination';
 import Trip from './Trip';
 
-function getRandomIndex() {
+let currentUser;
+let todaysDate = new Date();
+
+function getRandomIndex(dataset) {
   return Math.floor(Math.random() * dataset.length); 
 }; 
 
@@ -34,7 +37,7 @@ function generateUser(userData) {
 
 function displayCurrrentUser() {
   const usernameDisplay = document.querySelector('.username');
-  usernameDisplay.innerText = currentUser.getFirstName();
+  usernameDisplay.innerText = currentUser.name.split(' ')[0];
 }
 
 
