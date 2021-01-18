@@ -8,6 +8,7 @@ import Trip from './Trip';
 
 const bookingButton = document.getElementById('booking-button');
 let currentUser;
+let allTrips;
 let todaysDate = new Date();
 
 
@@ -47,6 +48,7 @@ function displayCurrrentUser() {
 
 
 function generateTrips(tripData, destinationData) {
+  allTrips = tripData;
   const trips = tripData.map(trip => new Trip(trip));
   trips.forEach(trip => trip.getDestination(destinationData))
 
@@ -76,9 +78,7 @@ function displayLastYearsExpenses(cost) {
 }
 
 function addDestinationOptions(destinationData) {
-  const destinationList = destinationData.sort();
-
-  const destinationIDs = destinationData.map
+  const destinationList = destinationData.sort((a, b) => a.destinaiont - b.destination);
 
   createNewOptions(destinationList);
 }
@@ -141,19 +141,29 @@ function displayTripCostEstimate(estimatedCost) {
   newEstimateDisplay.innerText = `$${estimatedCost}`;
 
   bookingArea.appendChild(newEstimateDisplay);
+  console.log(getTripId())
+}
+
+function getDestinationOptionID() {
+  const destinationsDropdown = document.getElementById('destinations-dropdown');
+
+  const selectedDestination = destinationsDropdown.value;
+  const optionsList = Array.from(destinationsDropdown.options);
+  const selection = optionsList.find(option => option.value === selectedDestination);
+
+  return selection.id;
 }
 
 function bookTrip() {
   const userId = document.querySelector('.username');
   const numberOfTravelers = document.getElementById('travelers-input').value;
-  const destinationChoice = document.getElementById('destinations-dropdown');
   const duration = document.getElementById('duration-input').value;
   const selectedDate = document.getElementById('date-input.value');
 
   const options = {
-      id: someID, 
-      userID: userId.id, 
-      destinationID: destinationChoice.id, 
+      id: getTripData(), 
+      userID: currentUser.id, 
+      destinationID: getDestinationOptionID(), 
       travelers: numberOfTravelers, 
       date: formatDate(selectedDate), 
       duration: duration, 
@@ -168,4 +178,11 @@ function formatDate(date) {
   const formattedDate = new Date(date);
 
   return formattedDate.toLocaleDateString;
+}
+
+function getTripId() {
+  const reversedTrips = allTrips.reverse();
+  const highestTripID = reversedTrips[0].id;
+
+  return highestTripID + 1;
 }
