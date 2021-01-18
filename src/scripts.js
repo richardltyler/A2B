@@ -76,7 +76,9 @@ function displayLastYearsExpenses(cost) {
 }
 
 function addDestinationOptions(destinationData) {
-  const destinationList = destinationData.map(location => location.destination).sort();
+  const destinationList = destinationData.sort();
+
+  const destinationIDs = destinationData.map
 
   createNewOptions(destinationList);
 }
@@ -86,8 +88,9 @@ function createNewOptions(optionsList) {
 
   optionsList.forEach(option => {
     const newOptionElement = document.createElement("option");
-    newOptionElement.value = option;
-    newOptionElement.innerText = option;
+    newOptionElement.value = option.destination;
+    newOptionElement.innerText = option.destination;
+    newOptionElement.id = option.id;
 
     dropdown.appendChild(newOptionElement);
   })
@@ -140,4 +143,29 @@ function displayTripCostEstimate(estimatedCost) {
   bookingArea.appendChild(newEstimateDisplay);
 }
 
+function bookTrip() {
+  const userId = document.querySelector('.username');
+  const numberOfTravelers = document.getElementById('travelers-input').value;
+  const destinationChoice = document.getElementById('destinations-dropdown');
+  const duration = document.getElementById('duration-input').value;
+  const selectedDate = document.getElementById('date-input.value');
 
+  const options = {
+      id: someID, 
+      userID: userId.id, 
+      destinationID: destinationChoice.id, 
+      travelers: numberOfTravelers, 
+      date: formatDate(selectedDate), 
+      duration: duration, 
+      status: 'pending', 
+      suggestedActivities: [],
+    };
+
+  fetchAPI.postData('trips', options);
+}
+
+function formatDate(date) {
+  const formattedDate = new Date(date);
+
+  return formattedDate.toLocaleDateString;
+}
