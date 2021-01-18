@@ -22,10 +22,6 @@
   display: block;
   padding: 1rem;
 
-  h4 {
-    font-size: 1.5rem;
-  }
-
   img {
     height: 10rem;
     width: 100%;
@@ -36,15 +32,5 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .card--status-area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 2rem;
-    width: 5rem;
-    color: $green;
-    border: 3px solid $yellow;
   }
 }
