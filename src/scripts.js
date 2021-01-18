@@ -6,7 +6,11 @@ import User from './User';
 import Destination from './Destination';
 import Trip from './Trip';
 
+const costButton = document.getElementById('cost-button');
 const bookingButton = document.getElementById('booking-button');
+
+bookingButton.addEventListener('click', bookTrip);
+
 let currentUser;
 let allTrips;
 let todaysDate = new Date();
@@ -32,7 +36,7 @@ Promise.all([users, trips, destinations])
     displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
     addDestinationOptions(value[2].destinations);
   })
-  .then(bookingButton.addEventListener('click', getCostEstimate));
+  .then(costButton.addEventListener('click', getCostEstimate));
 
 function generateUser(userData) {
   const randomIndex = getRandomIndex(userData);
@@ -139,9 +143,38 @@ function displayTripCostEstimate(estimatedCost) {
 
   const newEstimateDisplay = document.createElement('h6');
   newEstimateDisplay.innerText = `$${estimatedCost}`;
+  newEstimateDisplay.id = 'estimatedCostDisplay';
 
   bookingArea.appendChild(newEstimateDisplay);
-  console.log(getTripId())
+}
+
+function bookTrip() {
+  const numberOfTravelers = document.getElementById('travelers-input').value;
+  const duration = document.getElementById('duration-input').value;
+  const selectedDate = document.getElementById('date-input').value;
+  const estimatedCost = document.getElementById('estimatedCostDisplay');
+
+  if (numberOfTravelers && duration && selectedDate && estimatedCost) {
+    const optionsBody = {
+        id: getTripId(), 
+        userID: currentUser.id, 
+        destinationID: getDestinationOptionID(), 
+        travelers: numberOfTravelers, 
+        date: formatDate(selectedDate),
+        duration: duration, 
+        status: 'pending', 
+        suggestedActivities: []
+      };
+
+    fetchAPI.postData(optionsBody);
+  }
+}
+
+function getTripId() {
+  const sortedTrips = allTrips.sort((a, b) => b.id - a.id);
+  const highestTripID = sortedTrips[0].id;
+
+  return highestTripID + 1;
 }
 
 function getDestinationOptionID() {
@@ -151,38 +184,11 @@ function getDestinationOptionID() {
   const optionsList = Array.from(destinationsDropdown.options);
   const selection = optionsList.find(option => option.value === selectedDestination);
 
-  return selection.id;
-}
-
-function bookTrip() {
-  const userId = document.querySelector('.username');
-  const numberOfTravelers = document.getElementById('travelers-input').value;
-  const duration = document.getElementById('duration-input').value;
-  const selectedDate = document.getElementById('date-input.value');
-
-  const options = {
-      id: getTripData(), 
-      userID: currentUser.id, 
-      destinationID: getDestinationOptionID(), 
-      travelers: numberOfTravelers, 
-      date: formatDate(selectedDate), 
-      duration: duration, 
-      status: 'pending', 
-      suggestedActivities: [],
-    };
-
-  fetchAPI.postData('trips', options);
+  return parseInt(selection.id);
 }
 
 function formatDate(date) {
-  const formattedDate = new Date(date);
+  const dateInfo = date.split('-');
 
-  return formattedDate.toLocaleDateString;
-}
-
-function getTripId() {
-  const reversedTrips = allTrips.reverse();
-  const highestTripID = reversedTrips[0].id;
-
-  return highestTripID + 1;
+  return dateInfo.join('/');
 }
