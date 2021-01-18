@@ -35,12 +35,13 @@
           <input type="number" id="duration-input">
           <label for="travelers-input"  min="1">How many People will be traveling with you?</label>
           <input type="number" id="travelers-input">
-          <label for="destinations">Choose a destinaion</label>
-          <form>
+          <label for="destinations-form">Choose a destinaion</label>
+          <form id="destinations-form">
+            <label id="dropdown-menu-lable" for="destinations-dropdown">Dropdown Menu</label>
             <select id="destinations-dropdown" placeholder="Your dream destination">
             </select>
           </form>
-          <label id="sidebar--booking--button" for="booking-button">Booking Button</label>
+          <label id="sidebar--booking--button--label" for="booking-button">Booking Button</label>
           <button id="booking-button">Get cost estimate</button>
         </section>
       </aside>
