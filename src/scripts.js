@@ -104,8 +104,10 @@ function getCostEstimate() {
 
 function getTotalCost(destinationData) {
   const destination = getDestination(destinationData);
+  const cost = (getLodgingCost(destination) + getFlightCost(destination)) * 1.1;
+  const formattedCost = cost.toFixed();
 
-  return (getLodgingCost(destination) + getFlightCost(destination)) * 1.1;
+  return formattedCost;
 } 
 
 function getDestination(destinationData) {
@@ -115,7 +117,7 @@ function getDestination(destinationData) {
 }
 
 function getFlightCost(destination) {
-  const numberOfTravelers = document.getElementById('travelers-input');
+  const numberOfTravelers = document.getElementById('travelers-input').value;
 
   return destination.estimatedFlightCostPerPerson * numberOfTravelers;
 }
