@@ -6,8 +6,11 @@ import User from './User';
 import Destination from './Destination';
 import Trip from './Trip';
 
+const bookingButton = document.getElementById('booking-button');
 let currentUser;
 let todaysDate = new Date();
+
+
 
 function getRandomIndex(dataset) {
   return Math.floor(Math.random() * dataset.length); 
@@ -21,15 +24,14 @@ Promise.all([users, trips, destinations])
   .then(value => {
     generateUser(value[0].travelers);
     const trips = generateTrips(value[1].trips, value[2].destinations);
-    addDestinationOptions(value[2].destinations);
-    // console.log(value[2].destinations);
     currentUser.getTripData(trips);
     currentUser.trips.forEach(trip => {
       createTripCard(trip);
     });
     displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
-  });
-
+    addDestinationOptions(value[2].destinations);
+  })
+  .then(bookingButton.addEventListener('click', getCostEstimate));
 
 function generateUser(userData) {
   const randomIndex = getRandomIndex(userData);
@@ -80,7 +82,7 @@ function addDestinationOptions(destinationData) {
 }
 
 function createNewOptions(optionsList) {
-  const dropdown = document.getElementById('destinations');
+  const dropdown = document.getElementById('destinations-dropdown');
 
   optionsList.forEach(option => {
     const newOptionElement = document.createElement("option");
@@ -90,3 +92,50 @@ function createNewOptions(optionsList) {
     dropdown.appendChild(newOptionElement);
   })
 }
+
+function getCostEstimate() {
+  Promise.resolve(destinations)
+  .then(destinationsData => {
+    const estimatedCost = getTotalCost(destinationsData.destinations);
+
+    displayTripCostEstimate(estimatedCost);
+  })
+}
+
+function getTotalCost(destinationData) {
+  const destination = getDestination(destinationData);
+
+  return (getLodgingCost(destination) + getFlightCost(destination)) * 1.1;
+} 
+
+function getDestination(destinationData) {
+  const destinationChoice = document.getElementById('destinations-dropdown').value;
+
+  return destinationData.find(destination => destination.destination === destinationChoice);
+}
+
+function getFlightCost(destination) {
+  const numberOfTravelers = document.getElementById('travelers-input');
+
+  return destination.estimatedFlightCostPerPerson * numberOfTravelers;
+}
+
+function getLodgingCost(destination) {
+  const duration = document.getElementById('duration-input').value;
+
+  return duration * destination.estimatedLodgingCostPerDay;
+}
+
+function displayTripCostEstimate(estimatedCost) {
+  const bookingArea = document.querySelector('.sidebar--booking');
+  const estimateDisplays = bookingArea.querySelectorAll('h6');
+  estimateDisplays.forEach(element => element.remove());
+
+
+  const newEstimateDisplay = document.createElement('h6');
+  newEstimateDisplay.innerText = `$${estimatedCost}`;
+
+  bookingArea.appendChild(newEstimateDisplay);
+}
+
+
