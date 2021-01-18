@@ -3,7 +3,7 @@ const expect = chai.expect;
 
 import Trip from '../src/Trip'
 
-describe.only('Trip', function() {
+describe('Trip', function() {
   let trip1;
   let trip2; 
   let tripData;
@@ -78,9 +78,9 @@ describe.only('Trip', function() {
   })
 
   it('should initialize with a number of travelers', function() {
-    expect(trip1.numberOfTravelers).to.eq(1);
+    expect(trip1.travelers).to.eq(1);
 
-    expect(trip2.numberOfTravelers).to.eq(5);
+    expect(trip2.travelers).to.eq(5);
   })
 
   it('should initialize with a date', function() {

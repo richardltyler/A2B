@@ -18,7 +18,7 @@ class User {
   getCostOfYearsTravel(currentDate) {
     const pastYearsTrips = this.getTripsFromPastYear(currentDate);
     const cost = pastYearsTrips.reduce((acc, trip) => {
-      acc += parseInt(trip.getTravelCost());
+      acc += trip.getTravelCost();
       return acc;
     }, 0);
 

@@ -3,7 +3,7 @@ class Trip {
     this.id = tripData.id;
     this.userID = tripData.userID;
     this.destinationID = tripData.destinationID;
-    this.numberOfTravelers = tripData.travelers;
+    this.travelers = tripData.travelers;
     this.date = tripData.date;
     this.duration = tripData.duration;
     this.status = tripData.status;
@@ -16,7 +16,7 @@ class Trip {
 
   getTravelCost() {
     const lodging = this.destination.estimatedLodgingCostPerDay * this.duration;
-    const flights = this.destination.estimatedFlightCostPerPerson * this.numberOfTravelers;
+    const flights = this.destination.estimatedFlightCostPerPerson * this.travelers;
     const agentsFee = 1.1;
 
     return parseInt((agentsFee * (lodging + flights)).toFixed(2));
