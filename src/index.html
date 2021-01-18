@@ -31,16 +31,17 @@
         <section class="sidebar--booking">
           <label for="date-input">Select a date</label>
           <input type="date" id="date-input">
-          <label for="duration-input">How many days?</label>
+          <label for="duration-input" min="0">How many days?</label>
           <input type="number" id="duration-input">
-          <label for="travelers-input">How many People will be traveling with you?</label>
+          <label for="travelers-input"  min="1">How many People will be traveling with you?</label>
           <input type="number" id="travelers-input">
           <label for="destinations">Choose a destinaion</label>
           <form>
-            <select id="destinations">
-              <option value="drugs">Drugs</option>
+            <select id="destinations" placeholder="Your dream destination">
             </select>
           </form>
+          <label id="sidebar--booking--button" for="booking-button">Booking Button</label>
+          <button id="booking-button">Get cost estimate</button>
         </section>
       </aside>
       <section id="card-grid" class="trip-display--card-grid">
