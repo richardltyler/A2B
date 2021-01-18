@@ -5,11 +5,6 @@ class User {
     this.travelerType = userData.travelerType;
   }
 
-  getFirstName() {
-    const names = this.name.split(' ');
-    return names[0];
-  }
-
   getTripData(tripData) {
     const usersTrips = tripData.filter(trip => trip.userID === this.id);
     this.trips = usersTrips.sort((a, b) => a.getUnixDepartureDate() - b.getUnixDepartureDate());

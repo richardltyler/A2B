@@ -3,13 +3,11 @@ import './css/index.scss';
 import fetchAPI from './fetch';
 
 import User from './User';
+import Destination from './Destination';
 import Trip from './Trip';
 
-let currentUser;
-let todaysDate = new Date();
-
-function getRandomIndex(dataset) {
-  return Math.floor(Math.random() * dataset.length);
+function getRandomIndex() {
+  return Math.floor(Math.random() * dataset.length); 
 }; 
 
 const users = fetchAPI.getData('travelers');
