@@ -17,6 +17,11 @@
     "sidebar card-grid card-grid card-grid card-grid card-grid"
   ;
 
+  &--sidebar {
+    grid-area: sidebar;
+    padding-left: 1rem;
+  }
+
   &--headline {
     grid-area: headline;
     color: $green;
@@ -24,14 +29,27 @@
     text-decoration: underline;
   }
 
-  &--sidebar {
-    grid-area: sidebar;
-    padding-left: 1rem;
-
-  }
-
   &--card-grid {
     grid-area: card-grid;
   }
 }
 
+.sidebar--cost-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: $green;
+
+  h3 {
+    font-size: 1rem;
+    margin: 0px;
+    width: 10rem;
+  }
+
+  h4 {
+    font-size: 2.25rem;
+    margin-top: .5rem;
+  }
+}

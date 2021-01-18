@@ -28,9 +28,24 @@
     @include rounded-corners(0.3rem)
   }
 
-  div {
+  .card--time {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+}
+
+.trip-display--status {
+  height: 2rem;
+  width: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid $yellow;
+  margin: 0px;
+
+  .card--trip-status {
+    font-size: 0.75rem;
+    margin: 0;
   }
 }
