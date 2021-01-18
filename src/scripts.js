@@ -38,6 +38,7 @@ function generateUser(userData) {
 function displayCurrrentUser() {
   const usernameDisplay = document.querySelector('.username');
   usernameDisplay.innerText = currentUser.name.split(' ')[0];
+  usernameDisplay.id = currentUser.id;
 }
 
 
