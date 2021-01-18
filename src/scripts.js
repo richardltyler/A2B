@@ -21,6 +21,8 @@ Promise.all([users, trips, destinations])
   .then(value => {
     generateUser(value[0].travelers);
     const trips = generateTrips(value[1].trips, value[2].destinations);
+    addDestinationOptions(value[2].destinations);
+    // console.log(value[2].destinations);
     currentUser.getTripData(trips);
     currentUser.trips.forEach(trip => {
       createTripCard(trip);
@@ -69,4 +71,22 @@ function createTripCard(trip) {
 function displayLastYearsExpenses(cost) {
   const costDisplay = document.getElementById('cost-display');
   costDisplay.innerText = cost;
+}
+
+function addDestinationOptions(destinationData) {
+  const destinationList = destinationData.map(location => location.destination).sort();
+
+  createNewOptions(destinationList);
+}
+
+function createNewOptions(optionsList) {
+  const dropdown = document.getElementById('destinations');
+
+  optionsList.forEach(option => {
+    const newOptionElement = document.createElement("option");
+    newOptionElement.value = option;
+    newOptionElement.innerText = option;
+
+    dropdown.appendChild(newOptionElement);
+  })
 }
