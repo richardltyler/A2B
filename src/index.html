@@ -16,7 +16,7 @@
       </div>
       <div class="user-display">
         <img class="user-icon" src="./images/icons8-change-user-50.png" alt="user icon">
-        <h3 class="username">Username</h3>
+        <h2 class="username">Username</h2>
       </div>
     </nav>
     <main class="trip-display">
@@ -28,6 +28,23 @@
           <h3 id="cost-display--headline">Total Amount Spent Last Year:</h3>
           <h4 id="cost-display"></h4>
         </div>
+        <section class="sidebar--booking">
+          <label for="date-input">Select a date</label>
+          <input type="date" id="date-input">
+          <label for="duration-input" min="0">How many days?</label>
+          <input type="number" id="duration-input">
+          <label for="travelers-input"  min="1">How many People will be traveling with you?</label>
+          <input type="number" id="travelers-input">
+          <label for="destinations-form">Choose a destinaion</label>
+          <form id="destinations-form">
+            <label id="dropdown-menu-lable" for="destinations-dropdown">Dropdown Menu</label>
+            <select id="destinations-dropdown" placeholder="Your dream destination">
+            </select>
+          </form>
+          <label id="sidebar--booking--button--label" for="booking-button">Booking Button</label>
+          <button id="cost-button">Get cost estimate</button>
+          <button id="booking-button">Book Trip</button>
+        </section>
       </aside>
       <section id="card-grid" class="trip-display--card-grid">
         <div class="container">
