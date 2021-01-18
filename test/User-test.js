@@ -8,7 +8,7 @@ import userData from './test-data/user-test-data';
 import User from '../src/User';
 import Trip from '../src/Trip';
 
-describe.only('User', function() {
+describe('User', function() {
   let user1;
   let user2;
   let tripDataInstances;
