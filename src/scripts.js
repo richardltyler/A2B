@@ -30,7 +30,7 @@ Promise.all([users, trips, destinations])
 
 function generateUser(userData) {
   const randomIndex = getRandomIndex(userData);
-  currentUser = new User(userData[1]);
+  currentUser = new User(userData[randomIndex]);
   displayCurrrentUser();
 }
 

@@ -1,35 +1,36 @@
 import chai from 'chai';
 const expect = chai.expect;
 
+import tripData from './test-data/trip-test-data';
+import destinationData from './test-data/destination-test-data'
 import Trip from '../src/Trip'
 
 describe('Trip', function() {
   let trip1;
   let trip2; 
-  let tripData;
   let destinationData;
 
   beforeEach(function() {
-    tripData =  [{
-      "id": 1,
-      "userID": 44,
-      "destinationID": 49,
-      "travelers": 1,
-      "date": "2019/09/16",
-      "duration": 8,
-      "status": "approved",
-      "suggestedActivities": []
-    },
-    {
-      "id": 2,
-      "userID": 35,
-      "destinationID": 25,
-      "travelers": 5,
-      "date": "2020/10/04",
-      "duration": 18,
-      "status": "pending",
-      "suggestedActivities": []
-    }];
+    // tripData =  [{
+    //   "id": 1,
+    //   "userID": 44,
+    //   "destinationID": 49,
+    //   "travelers": 1,
+    //   "date": "2019/09/16",
+    //   "duration": 8,
+    //   "status": "approved",
+    //   "suggestedActivities": []
+    // },
+    // {
+    //   "id": 2,
+    //   "userID": 35,
+    //   "destinationID": 25,
+    //   "travelers": 5,
+    //   "date": "2020/10/04",
+    //   "duration": 18,
+    //   "status": "pending",
+    //   "suggestedActivities": []
+    // }];
 
     destinationData = [{
       "id": 49,
