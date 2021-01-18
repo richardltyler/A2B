@@ -12,8 +12,6 @@ class Trip {
 
   getDestination(destinationData) {
     this.destination = destinationData.find(destination => destination.id === this.destinationID);
-    
-    return this.destination;
   }
 
   getTravelCost() {
@@ -21,7 +19,7 @@ class Trip {
     const flights = this.destination.estimatedFlightCostPerPerson * this.numberOfTravelers;
     const agentsFee = 1.1;
 
-    return (agentsFee * (lodging + flights)).toFixed(2)
+    return parseInt((agentsFee * (lodging + flights)).toFixed(2));
   }
 
   getUnixDepartureDate() {

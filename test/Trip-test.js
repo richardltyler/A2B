@@ -3,10 +3,11 @@ const expect = chai.expect;
 
 import Trip from '../src/Trip'
 
-describe('Trip', function() {
+describe.only('Trip', function() {
   let trip1;
   let trip2; 
   let tripData;
+  let destinationData;
 
   beforeEach(function() {
     tripData =  [{
@@ -28,6 +29,22 @@ describe('Trip', function() {
       "duration": 18,
       "status": "pending",
       "suggestedActivities": []
+    }];
+
+    destinationData = [{
+      "id": 49,
+      "destination": "Castries, St Lucia",
+      "estimatedLodgingCostPerDay": 650,
+      "estimatedFlightCostPerPerson": 90,
+      "image": "https://images.unsplash.com/photo-1524478075552-c2763ea171b8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80",
+      "alt": "aerial photography of rocky mountain under cloudy sky"
+    }, {
+      "id": 25,
+      "destination": "New York, New York",
+      "estimatedLodgingCostPerDay": 175,
+      "estimatedFlightCostPerPerson": 200,
+      "image": "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+      "alt": "people crossing the street during the day surrounded by tall buildings and advertisements"
     }];
 
     trip1 = new Trip(tripData[0]);
@@ -70,7 +87,6 @@ describe('Trip', function() {
     expect(trip1.date).to.eq('2019/09/16');
 
     expect(trip2.date).to.eq('2020/10/04');
-
   })
 
   it('should initialize with a duration', function() {
@@ -89,5 +105,36 @@ describe('Trip', function() {
     expect(trip1.suggestedActivities).to.deep.equal(tripData[0].suggestedActivities);
 
     expect(trip2.suggestedActivities).to.deep.equal(tripData[1].suggestedActivities);
+  })
+
+  it('should get the destination', function() {
+    trip1.getDestination(destinationData);
+    const destinationKeys = Object.keys(destinationData[0]);
+
+    expect(trip1.destination).to.deep.equal(destinationData[0]);
+    expect(trip1.destination).to.be.an('object').that.has.all.keys(destinationKeys);
+  })
+
+  it('should calculate the cost of travel', function() {
+    trip1.getDestination(destinationData);
+    const travelCost = trip1.getTravelCost();
+
+    expect(travelCost).to.deep.equal(5819);
+  })
+
+  it('should get the UTC date of departure', function() {
+    expect(trip1.getUnixDepartureDate()).to.eq(1568613600000);
+  })
+
+  it('should get the UTC date of return', function() {
+    expect(trip1.getUnixReturnDate()).to.eq(1569304800000);
+  })
+
+  it('should get a UTC return and departure date whose difference is equal to the duration in UTC', function() {
+    const returnDate = trip1.getUnixReturnDate();
+    const departureDate = trip1.getUnixDepartureDate();
+    const calculatedDuration = returnDate - departureDate;
+
+    expect(calculatedDuration).to.eq(trip1.duration * 86400000);
   })
 })
