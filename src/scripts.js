@@ -63,7 +63,7 @@ function bookTrip() {
       };
 
     fetchAPI.postData(optionsBody)
-    .then(getData());
+    .then(getData(currentUser.id));
   }
 }
 
@@ -80,7 +80,7 @@ function checkUserName() {
   const word = usernameInput.slice(0, 8);
   const userID = parseInt(usernameInput.slice(8));
 
-  if (word === 'traveler' && userID < 50 && password === 'travel2020') {
+  if (word === 'traveler' && userID < 51 && password === 'travel2020') {
     hideElement('overlay'); 
     hideElement('login-window');
     getData(userID);
@@ -88,7 +88,9 @@ function checkUserName() {
 }
 
 function generateUser(userData, userID) {
-  currentUser = new User(userData.travelers[userID]);
+  const user = userData.travelers.find(user => user.id === userID);
+  console.log(user)
+  currentUser = new User(user);
   displayCurrrentUser();
 }
 
