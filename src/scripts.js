@@ -16,11 +16,13 @@ bookingButton.addEventListener('click', bookTrip);
 
 let currentUser;
 let allTrips;
+let allDestinations;
 let todaysDate = new Date();
 
-function logIn() {
+
+// function logIn() {
   
-}
+// }
 
 // function checkUserName() {
 //   const usernameInput = document.getElementById('username-input').value;
@@ -30,7 +32,7 @@ function logIn() {
 //   //   const usernameInput 
 //   // }
 // }
-
+window.addEventListener('load', getData);
 
 
 function getRandomIndex(dataset) {
@@ -38,14 +40,16 @@ function getRandomIndex(dataset) {
 }; 
 
 function getData() {
-  const users = fetchAPI.getData('travelers');
-  const trips = fetchAPI.getData('trips');
-  const destinations = fetchAPI.getData('destinations');
+  const fetchData = [
+    fetchAPI.getData('travelers'), 
+    fetchAPI.getData('trips'), 
+    fetchAPI.getData('destinations')
+  ];
 
-  Promise.all([users, trips, destinations])
+  Promise.all(fetchData)
     .then(value => {
-      generateUser(value[0].travelers);
-      const trips = generateTrips(value[1].trips, value[2].destinations);
+      generateUser(value[0]);
+      const trips = generateTrips(value[1], value[2]);
       currentUser.getTripData(trips);
       currentUser.trips.forEach(trip => {
         createTripCard(trip);
@@ -59,8 +63,8 @@ function getData() {
 
 
 function generateUser(userData) {
-  const randomIndex = getRandomIndex(userData);
-  currentUser = new User(userData[randomIndex]);
+  const randomIndex = getRandomIndex(userData.travelers);
+  currentUser = new User(userData.travelers[randomIndex]);
   displayCurrrentUser();
 }
 
@@ -72,9 +76,10 @@ function displayCurrrentUser() {
 
 
 function generateTrips(tripData, destinationData) {
-  allTrips = tripData;
-  const trips = tripData.map(trip => new Trip(trip));
-  trips.forEach(trip => trip.getDestination(destinationData))
+  allTrips = tripData.trips;
+  allDestinations = destinationData.destinations;
+  const trips = allTrips.map(trip => new Trip(trip));
+  trips.forEach(trip => trip.getDestination(allDestinations));
 
   return trips;
 }
@@ -121,12 +126,9 @@ function createNewOptions(optionsList) {
 }
 
 function getCostEstimate() {
-  Promise.resolve(destinations)
-  .then(destinationsData => {
-    const estimatedCost = getTotalCost(destinationsData.destinations);
+    const estimatedCost = getTotalCost(allDestinations);
 
     displayTripCostEstimate(estimatedCost);
-  })
 }
 
 function getTotalCost(destinationData) {
@@ -186,7 +188,8 @@ function bookTrip() {
         suggestedActivities: []
       };
 
-    fetchAPI.postData(optionsBody);
+    fetchAPI.postData(optionsBody)
+    .then(getData());
   }
 }
 
