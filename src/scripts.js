@@ -31,26 +31,33 @@ function getData(userID) {
   ];
 
   Promise.all(fetchData)
-    .then(value => {
-      generateUser(value[0]);
-      const trips = generateTrips(value[1], value[2]);
-      currentUser.getTripData(trips);
-      domUpdates.clearCards();
-      currentUser.trips.forEach(trip => domUpdates.createTripCard(trip));
-      domUpdates.displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
-      domUpdates.addDestinationOptions(value[2].destinations);
+    .then(value => { 
+      if (value[0].id) {
+        domUpdates.hideElement('overlay'); 
+        domUpdates.hideElement('login-window');
+        generateUser(value[0]);
+        const trips = generateTrips(value[1], value[2]);
+        currentUser.getTripData(trips);
+        domUpdates.clearCards();
+        domUpdates.displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
+        domUpdates.addDestinationOptions(value[2].destinations);
+        currentUser.trips.forEach(trip => domUpdates.createTripCard(trip));
+      } else {
+        domUpdates.displayMessage('That username does not match');
+      }
     })
     .then(costButton.addEventListener('click', getCostEstimate));
 }
 
 // // POST
-function bookTrip() {
+function bookTrip(event) {
   const numberOfTravelers = document.getElementById('travelers-input').value;
   const duration = document.getElementById('duration-input').value;
   const selectedDate = document.getElementById('date-input').value;
-  const estimatedCost = document.getElementById('estimatedCostDisplay');
+  const estimatedCost = document.getElementById('booking-message');
+  event.preventDefault();
 
-  if (numberOfTravelers && duration && selectedDate && estimatedCost) {
+  if (numberOfTravelers && duration && selectedDate && estimatedCost && typeof(parseInt(estimatedCost.value)) === 'number') {
     const optionsBody = {
         id: getTripId(), 
         userID: currentUser.id, 
@@ -63,21 +70,24 @@ function bookTrip() {
       };
 
     fetchAPI.postData(optionsBody)
-    .then(getData(currentUser.id));
+    .then(getData(currentUser.id))
+    .then(domUpdates.displayMessageInBookingArea());
+  } else {
+    domUpdates.displayMessageInBookingArea('You need to fill out all forms or check the cost first');
   }
 }
 
 // EVENT HANDLERS AND HELPER FUNCTIONS
-function checkUserName() {
+function checkUserName(event) {
   const password = document.getElementById('password-input').value;
   const usernameInput = document.getElementById('username-input').value;
   const word = usernameInput.slice(0, 8);
   const userID = parseInt(usernameInput.slice(8));
 
-  if (word === 'traveler' && userID < 51 && password === 'travel2020') {
-    domUpdates.hideElement('overlay'); 
-    domUpdates.hideElement('login-window');
-    getData(userID);
+  if (word === 'traveler' && password === 'travel2020') {
+    getData(userID, event);
+  } else { 
+    domUpdates.displayMessage('PASSWORD IS INCORRECT');
   }
 }
 
@@ -96,10 +106,11 @@ function generateTrips(tripData, destinationData) {
   return trips;
 }
 
-function getCostEstimate() {
-    const estimatedCost = getTotalCost(allDestinations);
+function getCostEstimate(event) {
+  event.preventDefault();
+  const estimatedCost = getTotalCost(allDestinations);
 
-    domUpdates.displayTripCostEstimate(estimatedCost);
+  domUpdates.displayMessageInBookingArea(`$${estimatedCost}`);
 }
 
 function getTotalCost(destinationData) {

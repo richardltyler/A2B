@@ -1,8 +1,16 @@
 const domUpdates = {
   hideElement(element){
     const elementToHide = document.getElementById(element);
+
+    if (!elementToHide.classList.value.includes('hidden')) {
+      elementToHide.classList.add('hidden');
+    }
+  },
+
+  revealElement(element) {
+    const elementToHide = document.getElementById(element);
   
-    elementToHide.classList.add('hidden');
+    elementToHide.classList.remove('hidden');
   },
 
   displayCurrrentUser(user) {
@@ -60,18 +68,33 @@ const domUpdates = {
       });
     },
 
-    displayTripCostEstimate(estimatedCost) {
-        const bookingArea = document.querySelector('.sidebar--booking');
-        const estimateDisplays = bookingArea.querySelectorAll('h6');
-        estimateDisplays.forEach(element => element.remove());
+    displayMessageInBookingArea(message) {
+      const bookingArea = document.querySelector('.sidebar--booking');
+      const messageDisplay = bookingArea.querySelectorAll('h6');
+      messageDisplay.forEach(element => element.remove());
       
+      if (message) {
+        const newElement = document.createElement('h6');
+        newElement.innerText = message;
+        newElement.id = 'booking-message';
       
-        const newEstimateDisplay = document.createElement('h6');
-        newEstimateDisplay.innerText = `$${estimatedCost}`;
-        newEstimateDisplay.id = 'estimatedCostDisplay';
-      
-        bookingArea.appendChild(newEstimateDisplay);
+        bookingArea.appendChild(newElement);
       }
+    },
+
+    displayMessage(message) {
+      const messageDisplay = document.getElementById('error-message');
+
+      messageDisplay.innerText = message;
+    },
+
+    displayPostError(message) {
+      const errorDisplay = document.getElementById('cost-display');
+
+      errorDisplay.innerText = message;
+    }
+
+
 }
 
 export default domUpdates;
