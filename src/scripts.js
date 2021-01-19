@@ -8,10 +8,9 @@ import Trip from './Trip';
 
 const costButton = document.getElementById('cost-button');
 const bookingButton = document.getElementById('booking-button');
-const usernameInput = document.getElementById('username-input');
-const passwordInput = document.getElementById('password-input');
 const loginButton = document.getElementById('login-button');
 
+loginButton.addEventListener('click', checkUserName);
 bookingButton.addEventListener('click', bookTrip);
 
 let currentUser;
@@ -20,26 +19,26 @@ let allDestinations;
 let todaysDate = new Date();
 
 
-// function logIn() {
-  
-// }
+function hideElement(element){
+  const elementToHide = document.getElementById(element);
 
-// function checkUserName() {
-//   const usernameInput = document.getElementById('username-input').value;
-//   const brokenUsername = usernameInput,split
+  elementToHide.classList.add('hidden');
+}
 
-//   // if (usernameInput.includes('traveler')) {
-//   //   const usernameInput 
-//   // }
-// }
-window.addEventListener('load', getData);
+function checkUserName() {
+  const password = document.getElementById('password-input').value;
+  const usernameInput = document.getElementById('username-input').value;
+  const word = usernameInput.slice(0, 8);
+  const userID = parseInt(usernameInput.slice(8));
 
+  if (word === 'traveler' && userID < 50 && password === 'travel2020') {
+    hideElement('overlay'); 
+    hideElement('login-window');
+    getData(userID);
+  }
+}
 
-function getRandomIndex(dataset) {
-  return Math.floor(Math.random() * dataset.length); 
-}; 
-
-function getData() {
+function getData(userID) {
   const fetchData = [
     fetchAPI.getData('travelers'), 
     fetchAPI.getData('trips'), 
@@ -48,7 +47,7 @@ function getData() {
 
   Promise.all(fetchData)
     .then(value => {
-      generateUser(value[0]);
+      generateUser(value[0], userID);
       const trips = generateTrips(value[1], value[2]);
       currentUser.getTripData(trips);
       clearCards();
@@ -61,9 +60,8 @@ function getData() {
     .then(costButton.addEventListener('click', getCostEstimate));
 }
 
-function generateUser(userData) {
-  const randomIndex = getRandomIndex(userData.travelers);
-  currentUser = new User(userData.travelers[5]);
+function generateUser(userData, userID) {
+  currentUser = new User(userData.travelers[userID]);
   displayCurrrentUser();
 }
 
