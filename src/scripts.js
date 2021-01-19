@@ -57,7 +57,7 @@ function bookTrip(event) {
   const estimatedCost = document.getElementById('booking-message');
   event.preventDefault();
 
-  if (numberOfTravelers && durationInput && selectedDate && estimatedCost && typeof(parseInt(estimatedCost.value)) === 'number') {
+  if (numberOfTravelers && durationInput && selectedDate && estimatedCost && estimatedCost.innerText.includes('$')) {
     const optionsBody = {
       id: getTripId(), 
       userID: currentUser.id, 
@@ -161,3 +161,4 @@ function formatDate(date) {
 
   return dateInfo.join('/');
 }
+
