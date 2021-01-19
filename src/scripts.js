@@ -1,43 +1,27 @@
+// WEBPACK IMPORTS
 import './css/index.scss';
-
 import fetchAPI from './fetch';
-
 import User from './User';
 import Destination from './Destination';
 import Trip from './Trip';
 
+// QUERY SELECTORS
 const costButton = document.getElementById('cost-button');
 const bookingButton = document.getElementById('booking-button');
 const loginButton = document.getElementById('login-button');
 
+// EVENT LISTENERS
 loginButton.addEventListener('click', checkUserName);
 bookingButton.addEventListener('click', bookTrip);
 
+// GLOBAL VARIABLES
 let currentUser;
 let allTrips;
 let allDestinations;
 let todaysDate = new Date();
 
-
-function hideElement(element){
-  const elementToHide = document.getElementById(element);
-
-  elementToHide.classList.add('hidden');
-}
-
-function checkUserName() {
-  const password = document.getElementById('password-input').value;
-  const usernameInput = document.getElementById('username-input').value;
-  const word = usernameInput.slice(0, 8);
-  const userID = parseInt(usernameInput.slice(8));
-
-  if (word === 'traveler' && userID < 50 && password === 'travel2020') {
-    hideElement('overlay'); 
-    hideElement('login-window');
-    getData(userID);
-  }
-}
-
+// FETCH DATA
+// // GET
 function getData(userID) {
   const fetchData = [
     fetchAPI.getData('travelers'), 
@@ -58,6 +42,50 @@ function getData(userID) {
       addDestinationOptions(value[2].destinations);
     })
     .then(costButton.addEventListener('click', getCostEstimate));
+}
+
+// // POST
+function bookTrip() {
+  const numberOfTravelers = document.getElementById('travelers-input').value;
+  const duration = document.getElementById('duration-input').value;
+  const selectedDate = document.getElementById('date-input').value;
+  const estimatedCost = document.getElementById('estimatedCostDisplay');
+
+  if (numberOfTravelers && duration && selectedDate && estimatedCost) {
+    const optionsBody = {
+        id: getTripId(), 
+        userID: currentUser.id, 
+        destinationID: getDestinationOptionID(), 
+        travelers: numberOfTravelers, 
+        date: formatDate(selectedDate),
+        duration: duration, 
+        status: 'pending', 
+        suggestedActivities: []
+      };
+
+    fetchAPI.postData(optionsBody)
+    .then(getData());
+  }
+}
+
+// EVENT HANDLERS AND HELPER FUNCTIONS
+function hideElement(element){
+  const elementToHide = document.getElementById(element);
+
+  elementToHide.classList.add('hidden');
+}
+
+function checkUserName() {
+  const password = document.getElementById('password-input').value;
+  const usernameInput = document.getElementById('username-input').value;
+  const word = usernameInput.slice(0, 8);
+  const userID = parseInt(usernameInput.slice(8));
+
+  if (word === 'traveler' && userID < 50 && password === 'travel2020') {
+    hideElement('overlay'); 
+    hideElement('login-window');
+    getData(userID);
+  }
 }
 
 function generateUser(userData, userID) {
@@ -172,29 +200,6 @@ function displayTripCostEstimate(estimatedCost) {
   newEstimateDisplay.id = 'estimatedCostDisplay';
 
   bookingArea.appendChild(newEstimateDisplay);
-}
-
-function bookTrip() {
-  const numberOfTravelers = document.getElementById('travelers-input').value;
-  const duration = document.getElementById('duration-input').value;
-  const selectedDate = document.getElementById('date-input').value;
-  const estimatedCost = document.getElementById('estimatedCostDisplay');
-
-  if (numberOfTravelers && duration && selectedDate && estimatedCost) {
-    const optionsBody = {
-        id: getTripId(), 
-        userID: currentUser.id, 
-        destinationID: getDestinationOptionID(), 
-        travelers: numberOfTravelers, 
-        date: formatDate(selectedDate),
-        duration: duration, 
-        status: 'pending', 
-        suggestedActivities: []
-      };
-
-    fetchAPI.postData(optionsBody)
-    .then(getData());
-  }
 }
 
 function getTripId() {
