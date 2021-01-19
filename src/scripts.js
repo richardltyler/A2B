@@ -52,11 +52,10 @@ function getData(userID) {
 
 // // POST
 function bookTrip(event) {
-  const estimatedCost = document.getElementById('booking-message');
   event.preventDefault();
+  const estimatedCost = document.getElementById('booking-message');
 
-    if (tripToPost && estimatedCost && estimatedCost.innerText.includes('$')) {
-
+  if (tripToPost && estimatedCost && estimatedCost.innerText.includes('$')) {
     fetchAPI.postData(tripToPost)
       .then(getData(currentUser.id))
       .then(domUpdates.displayMessageInBookingArea('successfully requested new trip'));
