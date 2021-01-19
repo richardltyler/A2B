@@ -35,10 +35,18 @@ To get started on this project:
 
 ## Features
 
-
 <p align = "center">
-<img src="https://media.giphy.com/media/gAU2DWv2lSoiZcePeX/giphy.gif">
+ <img src="https://media.giphy.com/media/gAU2DWv2lSoiZcePeX/giphy.gif">
 </p>
+
+#### Login
+When the page is opened, a user must login in order to see their info. The username is `traveler${id of the user that you would like to see}`. The password is `travel2020`.
+
+#### Viewing Trips
+When the user's credentials are verified, the login window is hidden and the rest of the page is enabled. The user can see their username displayed in the top right corner of the page. They can see all of their trips (past, presenet, future, and pending) displayed on the dashboard. 
+
+#### Booking a Trip
+In the sidebar, the user can see how much money they have spent on travel in the previous calendar year for tax purposes. The user can also book a new trip in the sidebar. They can enter a date, a number of travelers, a duration, and choose from a list of destinations. They can then see the estimated cost of their trip, which includes a 10% travel agent fee. Once they have seen their estimated cost, they can book the trip. The trip is then added to the trip data and populated on the screen with the existing trips. 
 
 
 #### 
