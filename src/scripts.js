@@ -52,26 +52,26 @@ function getData(userID) {
 // // POST
 function bookTrip(event) {
   const numberOfTravelers = document.getElementById('travelers-input').value;
-  const duration = document.getElementById('duration-input').value;
+  const durationInput = document.getElementById('duration-input').value;
   const selectedDate = document.getElementById('date-input').value;
   const estimatedCost = document.getElementById('booking-message');
   event.preventDefault();
 
-  if (numberOfTravelers && duration && selectedDate && estimatedCost && typeof(parseInt(estimatedCost.value)) === 'number') {
+  if (numberOfTravelers && durationInput && selectedDate && estimatedCost && typeof(parseInt(estimatedCost.value)) === 'number') {
     const optionsBody = {
-        id: getTripId(), 
-        userID: currentUser.id, 
-        destinationID: getDestinationOptionID(), 
-        travelers: numberOfTravelers, 
-        date: formatDate(selectedDate),
-        duration: duration, 
-        status: 'pending', 
-        suggestedActivities: []
-      };
+      id: getTripId(), 
+      userID: currentUser.id, 
+      destinationID: getDestinationOptionID(), 
+      travelers: numberOfTravelers, 
+      date: formatDate(selectedDate),
+      duration: durationInput, 
+      status: 'pending', 
+      suggestedActivities: []
+    };
 
     fetchAPI.postData(optionsBody)
-    .then(getData(currentUser.id))
-    .then(domUpdates.displayMessageInBookingArea('successfully requested new trip'));
+      .then(getData(currentUser.id))
+      .then(domUpdates.displayMessageInBookingArea('successfully requested new trip'));
   } else {
     domUpdates.displayMessageInBookingArea('You need to fill out all forms or check the cost first');
   }

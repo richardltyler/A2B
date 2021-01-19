@@ -20,7 +20,7 @@ class User {
     return `$${cost}`;
   }
 
-   getTripsFromPastYear(currentDate) {
+  getTripsFromPastYear(currentDate) {
     const currentYear = currentDate.getFullYear();
     const pastYearsTrips = this.trips.reduce((acc, trip) => {
       const tripYear = new Date(trip.date).getFullYear();
@@ -33,7 +33,7 @@ class User {
     }, [])
 
     return pastYearsTrips;
-   }
+  }
 }
 
 module.exports = User;
