@@ -34,9 +34,7 @@ function getData(userID) {
       const trips = generateTrips(value[1], value[2]);
       currentUser.getTripData(trips);
       clearCards();
-      currentUser.trips.forEach(trip => {
-        createTripCard(trip);
-      });
+      currentUser.trips.forEach(trip => createTripCard(trip));
       displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
       addDestinationOptions(value[2].destinations);
     })
