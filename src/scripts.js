@@ -19,6 +19,7 @@ bookingButton.addEventListener('click', bookTrip);
 let currentUser;
 let allTrips;
 let allDestinations;
+let tripToPost;
 let todaysDate = new Date();
 
 // FETCH DATA
@@ -46,30 +47,16 @@ function getData(userID) {
         domUpdates.displayMessage('That username does not match');
       }
     })
-    .then(costButton.addEventListener('click', getCostEstimate));
+    .then(costButton.addEventListener('click', getNewTripToPost));
 }
 
 // // POST
 function bookTrip(event) {
-  const numberOfTravelers = document.getElementById('travelers-input').value;
-  const durationInput = document.getElementById('duration-input').value;
-  const selectedDate = document.getElementById('date-input').value;
-  const estimatedCost = document.getElementById('booking-message');
   event.preventDefault();
+  const estimatedCost = document.getElementById('booking-message');
 
-  if (numberOfTravelers && durationInput && selectedDate && estimatedCost && estimatedCost.innerText.includes('$')) {
-    const optionsBody = {
-      id: getTripId(), 
-      userID: currentUser.id, 
-      destinationID: getDestinationOptionID(), 
-      travelers: numberOfTravelers, 
-      date: formatDate(selectedDate),
-      duration: durationInput, 
-      status: 'pending', 
-      suggestedActivities: []
-    };
-
-    fetchAPI.postData(optionsBody)
+  if (tripToPost && estimatedCost && estimatedCost.innerText.includes('$')) {
+    fetchAPI.postData(tripToPost)
       .then(getData(currentUser.id))
       .then(domUpdates.displayMessageInBookingArea('successfully requested new trip'));
   } else {
@@ -84,10 +71,10 @@ function checkUserName(event) {
   const word = usernameInput.slice(0, 8);
   const userID = parseInt(usernameInput.slice(8));
 
-  if (word === 'traveler' && password === 'travel2020') {
+  if (word === 'traveler' && password === 'travel2020' && userID) {
     getData(userID, event);
   } else { 
-    domUpdates.displayMessage('PASSWORD IS INCORRECT');
+    domUpdates.displayMessage('PASSWORD OR USERNAME IS INCORRECT');
   }
 }
 
@@ -106,37 +93,31 @@ function generateTrips(tripData, destinationData) {
   return trips;
 }
 
-function getCostEstimate(event) {
-  event.preventDefault();
-  const estimatedCost = getTotalCost(allDestinations);
-
-  domUpdates.displayMessageInBookingArea(`$${estimatedCost}`);
-}
-
-function getTotalCost(destinationData) {
-  const destination = getDestination(destinationData);
-  const cost = (getLodgingCost(destination) + getFlightCost(destination)) * 1.1;
-  const formattedCost = cost.toFixed();
-
-  return formattedCost;
-} 
-
-function getDestination(destinationData) {
-  const destinationChoice = document.getElementById('destinations-dropdown').value;
-
-  return destinationData.find(destination => destination.destination === destinationChoice);
-}
-
-function getFlightCost(destination) {
+function getNewTripToPost(event) {
   const numberOfTravelers = document.getElementById('travelers-input').value;
+  const durationInput = document.getElementById('duration-input').value;
+  const selectedDate = document.getElementById('date-input').value;
+  event.preventDefault();
 
-  return destination.estimatedFlightCostPerPerson * numberOfTravelers;
-}
+  if (numberOfTravelers && durationInput && selectedDate) {
+    const tripData =  {
+      id: getTripId(), 
+      userID: currentUser.id, 
+      destinationID: getDestinationOptionID(), 
+      travelers: numberOfTravelers, 
+      date: formatDate(selectedDate),
+      duration: durationInput, 
+      status: 'pending', 
+      suggestedActivities: []
+    };
 
-function getLodgingCost(destination) {
-  const duration = document.getElementById('duration-input').value;
+    tripToPost = new Trip(tripData);
 
-  return duration * destination.estimatedLodgingCostPerDay;
+    tripToPost.getDestination(allDestinations);
+    domUpdates.displayMessageInBookingArea(`$${tripToPost.getTravelCost()}`);
+  } else {
+    domUpdates.displayMessageInBookingArea('All forms must be filled out');
+  }
 }
 
 function getTripId() {
@@ -161,4 +142,3 @@ function formatDate(date) {
 
   return dateInfo.join('/');
 }
-
