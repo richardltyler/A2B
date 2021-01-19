@@ -1,8 +1,10 @@
 // WEBPACK IMPORTS
 import './css/index.scss';
+import domUpdates from './domUpdates';
 import fetchAPI from './fetch';
 import User from './User';
 import Trip from './Trip';
+
 
 // QUERY SELECTORS
 const costButton = document.getElementById('cost-button');
@@ -33,10 +35,10 @@ function getData(userID) {
       generateUser(value[0]);
       const trips = generateTrips(value[1], value[2]);
       currentUser.getTripData(trips);
-      clearCards();
-      currentUser.trips.forEach(trip => createTripCard(trip));
-      displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
-      addDestinationOptions(value[2].destinations);
+      domUpdates.clearCards();
+      currentUser.trips.forEach(trip => domUpdates.createTripCard(trip));
+      domUpdates.displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
+      domUpdates.addDestinationOptions(value[2].destinations);
     })
     .then(costButton.addEventListener('click', getCostEstimate));
 }
@@ -66,12 +68,6 @@ function bookTrip() {
 }
 
 // EVENT HANDLERS AND HELPER FUNCTIONS
-function hideElement(element){
-  const elementToHide = document.getElementById(element);
-
-  elementToHide.classList.add('hidden');
-}
-
 function checkUserName() {
   const password = document.getElementById('password-input').value;
   const usernameInput = document.getElementById('username-input').value;
@@ -79,8 +75,8 @@ function checkUserName() {
   const userID = parseInt(usernameInput.slice(8));
 
   if (word === 'traveler' && userID < 51 && password === 'travel2020') {
-    hideElement('overlay'); 
-    hideElement('login-window');
+    domUpdates.hideElement('overlay'); 
+    domUpdates.hideElement('login-window');
     getData(userID);
   }
 }
@@ -88,13 +84,7 @@ function checkUserName() {
 function generateUser(userData) {
   currentUser = new User(userData);
 
-  displayCurrrentUser();
-}
-
-function displayCurrrentUser() {
-  const usernameDisplay = document.querySelector('.username');
-  usernameDisplay.innerText = currentUser.name.split(' ')[0];
-  usernameDisplay.id = currentUser.id;
+  domUpdates.displayCurrrentUser(currentUser);
 }
 
 function generateTrips(tripData, destinationData) {
@@ -106,59 +96,10 @@ function generateTrips(tripData, destinationData) {
   return trips;
 }
 
-function clearCards() {
-  const cardContainer = document.querySelector('.container');
-  const allChildrenElements = cardContainer.querySelectorAll('article');
-  allChildrenElements.forEach(element => {
-    cardContainer.removeChild(element);
-  })
-}
-
-function createTripCard(trip) {
-  const cardContainer = document.querySelector('.container');
-  const cardTemplate = document.getElementById('card-template');
-  const newTripCard = cardTemplate.content.cloneNode(true);
-  const cardImage = newTripCard.querySelector('img.card--image');
-
-  newTripCard.querySelector('article.trip-display--card').id = trip.id;
-  newTripCard.querySelector('h4.card--title').innerText = trip.destination.destination;
-  newTripCard.querySelector('h5.departure').innerText = trip.date;
-  newTripCard.querySelector('h5.duration').innerText = `${trip.duration} days`;
-  newTripCard.querySelector('h5.card--trip-status').innerText = trip.status.toUpperCase();
-  cardImage.src = trip.destination.image;
-  cardImage.alt = trip.destination.alt;
-
-  cardContainer.appendChild(newTripCard);
-}
-
-function displayLastYearsExpenses(cost) {
-  const costDisplay = document.getElementById('cost-display');
-  costDisplay.innerText = cost;
-}
-
-function addDestinationOptions(destinationData) {
-  const destinationList = destinationData.sort((a, b) => a.destinaiont - b.destination);
-
-  createNewOptions(destinationList);
-}
-
-function createNewOptions(optionsList) {
-  const dropdown = document.getElementById('destinations-dropdown');
-
-  optionsList.forEach(option => {
-    const newOptionElement = document.createElement("option");
-    newOptionElement.value = option.destination;
-    newOptionElement.innerText = option.destination;
-    newOptionElement.id = option.id;
-
-    dropdown.appendChild(newOptionElement);
-  })
-}
-
 function getCostEstimate() {
     const estimatedCost = getTotalCost(allDestinations);
 
-    displayTripCostEstimate(estimatedCost);
+    domUpdates.displayTripCostEstimate(estimatedCost);
 }
 
 function getTotalCost(destinationData) {
@@ -185,19 +126,6 @@ function getLodgingCost(destination) {
   const duration = document.getElementById('duration-input').value;
 
   return duration * destination.estimatedLodgingCostPerDay;
-}
-
-function displayTripCostEstimate(estimatedCost) {
-  const bookingArea = document.querySelector('.sidebar--booking');
-  const estimateDisplays = bookingArea.querySelectorAll('h6');
-  estimateDisplays.forEach(element => element.remove());
-
-
-  const newEstimateDisplay = document.createElement('h6');
-  newEstimateDisplay.innerText = `$${estimatedCost}`;
-  newEstimateDisplay.id = 'estimatedCostDisplay';
-
-  bookingArea.appendChild(newEstimateDisplay);
 }
 
 function getTripId() {
