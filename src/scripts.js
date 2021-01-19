@@ -89,8 +89,8 @@ function checkUserName() {
 
 function generateUser(userData, userID) {
   const user = userData.travelers.find(user => user.id === userID);
-  console.log(user)
   currentUser = new User(user);
+  
   displayCurrrentUser();
 }
 
