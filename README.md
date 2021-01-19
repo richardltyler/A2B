@@ -68,7 +68,7 @@ In the sidebar, the user can see how much money they have spent on travel in the
 
 ## Deployment
 
-The site can be reached at this [link]().
+The site can be reached at this [link](https://richardltyler.github.io/A2B/dist/index.html).
 
 ## Authors
 <table>
