@@ -8,6 +8,9 @@ import Trip from './Trip';
 
 const costButton = document.getElementById('cost-button');
 const bookingButton = document.getElementById('booking-button');
+const usernameInput = document.getElementById('username-input');
+const passwordInput = document.getElementById('password-input');
+const loginButton = document.getElementById('login-button');
 
 bookingButton.addEventListener('click', bookTrip);
 
@@ -15,28 +18,45 @@ let currentUser;
 let allTrips;
 let todaysDate = new Date();
 
+function logIn() {
+  
+}
+
+// function checkUserName() {
+//   const usernameInput = document.getElementById('username-input').value;
+//   const brokenUsername = usernameInput,split
+
+//   // if (usernameInput.includes('traveler')) {
+//   //   const usernameInput 
+//   // }
+// }
+
 
 
 function getRandomIndex(dataset) {
   return Math.floor(Math.random() * dataset.length); 
 }; 
 
-const users = fetchAPI.getData('travelers');
-const trips = fetchAPI.getData('trips');
-const destinations = fetchAPI.getData('destinations');
+function getData() {
+  const users = fetchAPI.getData('travelers');
+  const trips = fetchAPI.getData('trips');
+  const destinations = fetchAPI.getData('destinations');
 
-Promise.all([users, trips, destinations])
-  .then(value => {
-    generateUser(value[0].travelers);
-    const trips = generateTrips(value[1].trips, value[2].destinations);
-    currentUser.getTripData(trips);
-    currentUser.trips.forEach(trip => {
-      createTripCard(trip);
-    });
-    displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
-    addDestinationOptions(value[2].destinations);
-  })
-  .then(costButton.addEventListener('click', getCostEstimate));
+  Promise.all([users, trips, destinations])
+    .then(value => {
+      generateUser(value[0].travelers);
+      const trips = generateTrips(value[1].trips, value[2].destinations);
+      currentUser.getTripData(trips);
+      currentUser.trips.forEach(trip => {
+        createTripCard(trip);
+      });
+      displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
+      addDestinationOptions(value[2].destinations);
+    })
+    .then(costButton.addEventListener('click', getCostEstimate));
+}
+
+
 
 function generateUser(userData) {
   const randomIndex = getRandomIndex(userData);
