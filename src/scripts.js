@@ -23,14 +23,14 @@ let todaysDate = new Date();
 // // GET
 function getData(userID) {
   const fetchData = [
-    fetchAPI.getData('travelers'), 
+    fetchAPI.getData(`travelers/${userID}`), 
     fetchAPI.getData('trips'), 
     fetchAPI.getData('destinations')
   ];
 
   Promise.all(fetchData)
     .then(value => {
-      generateUser(value[0], userID);
+      generateUser(value[0]);
       const trips = generateTrips(value[1], value[2]);
       currentUser.getTripData(trips);
       clearCards();
@@ -87,10 +87,9 @@ function checkUserName() {
   }
 }
 
-function generateUser(userData, userID) {
-  const user = userData.travelers.find(user => user.id === userID);
-  currentUser = new User(user);
-  
+function generateUser(userData) {
+  currentUser = new User(userData);
+
   displayCurrrentUser();
 }
 
