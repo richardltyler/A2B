@@ -37,7 +37,7 @@ To get started on this project:
 
 
 <p align = "center">
-<img src="">
+<img src="https://media.giphy.com/media/gAU2DWv2lSoiZcePeX/giphy.gif">
 </p>
 
 
