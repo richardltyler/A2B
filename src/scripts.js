@@ -71,7 +71,7 @@ function bookTrip(event) {
 
     fetchAPI.postData(optionsBody)
     .then(getData(currentUser.id))
-    .then(domUpdates.displayMessageInBookingArea());
+    .then(domUpdates.displayMessageInBookingArea('successfully requested new trip'));
   } else {
     domUpdates.displayMessageInBookingArea('You need to fill out all forms or check the cost first');
   }
