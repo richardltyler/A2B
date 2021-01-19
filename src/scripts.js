@@ -51,6 +51,7 @@ function getData() {
       generateUser(value[0]);
       const trips = generateTrips(value[1], value[2]);
       currentUser.getTripData(trips);
+      clearCards();
       currentUser.trips.forEach(trip => {
         createTripCard(trip);
       });
@@ -60,11 +61,9 @@ function getData() {
     .then(costButton.addEventListener('click', getCostEstimate));
 }
 
-
-
 function generateUser(userData) {
   const randomIndex = getRandomIndex(userData.travelers);
-  currentUser = new User(userData.travelers[randomIndex]);
+  currentUser = new User(userData.travelers[5]);
   displayCurrrentUser();
 }
 
@@ -74,7 +73,6 @@ function displayCurrrentUser() {
   usernameDisplay.id = currentUser.id;
 }
 
-
 function generateTrips(tripData, destinationData) {
   allTrips = tripData.trips;
   allDestinations = destinationData.destinations;
@@ -82,6 +80,14 @@ function generateTrips(tripData, destinationData) {
   trips.forEach(trip => trip.getDestination(allDestinations));
 
   return trips;
+}
+
+function clearCards() {
+  const cardContainer = document.querySelector('.container');
+  const allChildrenElements = cardContainer.querySelectorAll('article');
+  allChildrenElements.forEach(element => {
+    cardContainer.removeChild(element);
+  })
 }
 
 function createTripCard(trip) {
