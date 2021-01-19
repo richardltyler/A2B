@@ -1,7 +1,7 @@
 const fetchAPI = {
   getData(dataset) {
     return fetch(`http://localhost:3001/api/v1/${dataset}`)
-    .then(response => response.json());
+      .then(response => response.json());
   },
 
   postData(body) {
@@ -14,8 +14,7 @@ const fetchAPI = {
     };
 
     return fetch(`http://localhost:3001/api/v1/trips`, options)
-    .then(response => response.json())
-    .then(data => console.log(data));
+      .then(response => response.json())
   }  
 };
 

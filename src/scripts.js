@@ -1,112 +1,116 @@
+// WEBPACK IMPORTS
 import './css/index.scss';
-
+import domUpdates from './domUpdates';
 import fetchAPI from './fetch';
-
 import User from './User';
-import Destination from './Destination';
 import Trip from './Trip';
 
+
+// QUERY SELECTORS
 const costButton = document.getElementById('cost-button');
 const bookingButton = document.getElementById('booking-button');
+const loginButton = document.getElementById('login-button');
 
+// EVENT LISTENERS
+loginButton.addEventListener('click', checkUserName);
 bookingButton.addEventListener('click', bookTrip);
 
+// GLOBAL VARIABLES
 let currentUser;
 let allTrips;
+let allDestinations;
 let todaysDate = new Date();
 
+// FETCH DATA
+// // GET
+function getData(userID) {
+  const fetchData = [
+    fetchAPI.getData(`travelers/${userID}`), 
+    fetchAPI.getData('trips'), 
+    fetchAPI.getData('destinations')
+  ];
 
+  Promise.all(fetchData)
+    .then(value => { 
+      if (value[0].id) {
+        domUpdates.hideElement('overlay'); 
+        domUpdates.hideElement('login-window');
+        generateUser(value[0]);
+        const trips = generateTrips(value[1], value[2]);
+        currentUser.getTripData(trips);
+        domUpdates.clearCards();
+        domUpdates.displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
+        domUpdates.addDestinationOptions(value[2].destinations);
+        currentUser.trips.forEach(trip => domUpdates.createTripCard(trip));
+      } else {
+        domUpdates.displayMessage('That username does not match');
+      }
+    })
+    .then(costButton.addEventListener('click', getCostEstimate));
+}
 
-function getRandomIndex(dataset) {
-  return Math.floor(Math.random() * dataset.length); 
-}; 
+// // POST
+function bookTrip(event) {
+  const numberOfTravelers = document.getElementById('travelers-input').value;
+  const durationInput = document.getElementById('duration-input').value;
+  const selectedDate = document.getElementById('date-input').value;
+  const estimatedCost = document.getElementById('booking-message');
+  event.preventDefault();
 
-const users = fetchAPI.getData('travelers');
-const trips = fetchAPI.getData('trips');
-const destinations = fetchAPI.getData('destinations');
+  if (numberOfTravelers && durationInput && selectedDate && estimatedCost && typeof(parseInt(estimatedCost.value)) === 'number') {
+    const optionsBody = {
+      id: getTripId(), 
+      userID: currentUser.id, 
+      destinationID: getDestinationOptionID(), 
+      travelers: numberOfTravelers, 
+      date: formatDate(selectedDate),
+      duration: durationInput, 
+      status: 'pending', 
+      suggestedActivities: []
+    };
 
-Promise.all([users, trips, destinations])
-  .then(value => {
-    generateUser(value[0].travelers);
-    const trips = generateTrips(value[1].trips, value[2].destinations);
-    currentUser.getTripData(trips);
-    currentUser.trips.forEach(trip => {
-      createTripCard(trip);
-    });
-    displayLastYearsExpenses(currentUser.getCostOfYearsTravel(todaysDate));
-    addDestinationOptions(value[2].destinations);
-  })
-  .then(costButton.addEventListener('click', getCostEstimate));
+    fetchAPI.postData(optionsBody)
+      .then(getData(currentUser.id))
+      .then(domUpdates.displayMessageInBookingArea('successfully requested new trip'));
+  } else {
+    domUpdates.displayMessageInBookingArea('You need to fill out all forms or check the cost first');
+  }
+}
+
+// EVENT HANDLERS AND HELPER FUNCTIONS
+function checkUserName(event) {
+  const password = document.getElementById('password-input').value;
+  const usernameInput = document.getElementById('username-input').value;
+  const word = usernameInput.slice(0, 8);
+  const userID = parseInt(usernameInput.slice(8));
+
+  if (word === 'traveler' && password === 'travel2020') {
+    getData(userID, event);
+  } else { 
+    domUpdates.displayMessage('PASSWORD IS INCORRECT');
+  }
+}
 
 function generateUser(userData) {
-  const randomIndex = getRandomIndex(userData);
-  currentUser = new User(userData[randomIndex]);
-  displayCurrrentUser();
-}
+  currentUser = new User(userData);
 
-function displayCurrrentUser() {
-  const usernameDisplay = document.querySelector('.username');
-  usernameDisplay.innerText = currentUser.name.split(' ')[0];
-  usernameDisplay.id = currentUser.id;
+  domUpdates.displayCurrrentUser(currentUser);
 }
-
 
 function generateTrips(tripData, destinationData) {
-  allTrips = tripData;
-  const trips = tripData.map(trip => new Trip(trip));
-  trips.forEach(trip => trip.getDestination(destinationData))
+  allTrips = tripData.trips;
+  allDestinations = destinationData.destinations;
+  const trips = allTrips.map(trip => new Trip(trip));
+  trips.forEach(trip => trip.getDestination(allDestinations));
 
   return trips;
 }
 
-function createTripCard(trip) {
-  const cardContainer = document.querySelector('.container');
-  const cardTemplate = document.getElementById('card-template');
-  const newTripCard = cardTemplate.content.cloneNode(true);
-  const cardImage = newTripCard.querySelector('img.card--image');
+function getCostEstimate(event) {
+  event.preventDefault();
+  const estimatedCost = getTotalCost(allDestinations);
 
-  newTripCard.querySelector('article.trip-display--card').id = trip.id;
-  newTripCard.querySelector('h4.card--title').innerText = trip.destination.destination;
-  newTripCard.querySelector('h5.departure').innerText = trip.date;
-  newTripCard.querySelector('h5.duration').innerText = `${trip.duration} days`;
-  newTripCard.querySelector('h5.card--trip-status').innerText = trip.status.toUpperCase();
-  cardImage.src = trip.destination.image;
-  cardImage.alt = trip.destination.alt;
-
-  cardContainer.appendChild(newTripCard);
-}
-
-function displayLastYearsExpenses(cost) {
-  const costDisplay = document.getElementById('cost-display');
-  costDisplay.innerText = cost;
-}
-
-function addDestinationOptions(destinationData) {
-  const destinationList = destinationData.sort((a, b) => a.destinaiont - b.destination);
-
-  createNewOptions(destinationList);
-}
-
-function createNewOptions(optionsList) {
-  const dropdown = document.getElementById('destinations-dropdown');
-
-  optionsList.forEach(option => {
-    const newOptionElement = document.createElement("option");
-    newOptionElement.value = option.destination;
-    newOptionElement.innerText = option.destination;
-    newOptionElement.id = option.id;
-
-    dropdown.appendChild(newOptionElement);
-  })
-}
-
-function getCostEstimate() {
-  Promise.resolve(destinations)
-  .then(destinationsData => {
-    const estimatedCost = getTotalCost(destinationsData.destinations);
-
-    displayTripCostEstimate(estimatedCost);
-  })
+  domUpdates.displayMessageInBookingArea(`$${estimatedCost}`);
 }
 
 function getTotalCost(destinationData) {
@@ -133,41 +137,6 @@ function getLodgingCost(destination) {
   const duration = document.getElementById('duration-input').value;
 
   return duration * destination.estimatedLodgingCostPerDay;
-}
-
-function displayTripCostEstimate(estimatedCost) {
-  const bookingArea = document.querySelector('.sidebar--booking');
-  const estimateDisplays = bookingArea.querySelectorAll('h6');
-  estimateDisplays.forEach(element => element.remove());
-
-
-  const newEstimateDisplay = document.createElement('h6');
-  newEstimateDisplay.innerText = `$${estimatedCost}`;
-  newEstimateDisplay.id = 'estimatedCostDisplay';
-
-  bookingArea.appendChild(newEstimateDisplay);
-}
-
-function bookTrip() {
-  const numberOfTravelers = document.getElementById('travelers-input').value;
-  const duration = document.getElementById('duration-input').value;
-  const selectedDate = document.getElementById('date-input').value;
-  const estimatedCost = document.getElementById('estimatedCostDisplay');
-
-  if (numberOfTravelers && duration && selectedDate && estimatedCost) {
-    const optionsBody = {
-        id: getTripId(), 
-        userID: currentUser.id, 
-        destinationID: getDestinationOptionID(), 
-        travelers: numberOfTravelers, 
-        date: formatDate(selectedDate),
-        duration: duration, 
-        status: 'pending', 
-        suggestedActivities: []
-      };
-
-    fetchAPI.postData(optionsBody);
-  }
 }
 
 function getTripId() {
