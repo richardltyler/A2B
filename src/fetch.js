@@ -2,7 +2,6 @@ const fetchAPI = {
   getData(dataset) {
     return fetch(`http://localhost:3001/api/v1/${dataset}`)
       .then(response => response.json())
-      .catch(error => console.log(error));
   },
 
   postData(body) {

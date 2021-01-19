@@ -71,10 +71,10 @@ function checkUserName(event) {
   const word = usernameInput.slice(0, 8);
   const userID = parseInt(usernameInput.slice(8));
 
-  if (word === 'traveler' && password === 'travel2020') {
+  if (word === 'traveler' && password === 'travel2020' && userID) {
     getData(userID, event);
   } else { 
-    domUpdates.displayMessage('PASSWORD IS INCORRECT');
+    domUpdates.displayMessage('PASSWORD OR USERNAME IS INCORRECT');
   }
 }
 
