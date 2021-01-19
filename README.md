@@ -26,80 +26,96 @@ To verify that it is setup correctly, run `npm start` in your terminal. Go to `h
 
 ## Where to Add Your Code
 
-### JavaScript
-
-You have to be very intentional with where you add your feature code. This repo uses a tool called [webpack](https://webpack.js.org/) to combine many JavaScript files into one big file. Webpack enables you to have many, separate JavaScript files to keep your code organized and readable. Webpack expects all of your code files to be in a specific place, or else it doesn't know how to combine them all behind the scenes.
-
-**Create all of your feature code files in the `src` directory.**
-
-Since code is separated into multiple files, you need to use the `import` and `export` syntax to share code across file.
-
-Here is a video that walks through some information about [import and export](https://www.youtube.com/watch?v=_3oSWwapPKQ). There are a lot of resources out there about `import` and `export`, and resources will sometimes call them `ES6 modules`. It's something you will see in React and beyond.
-
-### HTML
-
-Add the HTML you need in the `index.html` file in the `./src` directory. There is some boilerplate HTML that exists from the start that you can modify.
-
-### CSS (SCSS/SASS)
-
-This project is setup to use SCSS/SASS files by default instead of your regular CSS files. Add your SCSS files in the `src/css` directory. There is a `base.scss` file already there, but you can change this file and add multiple SCSS files in this directory.
-
-This might sound weird, but you need to `import` your SCSS files in the JavaScript entry file (`index.js`) for the styles to be applied to your HTML. The example `base.scss` file has already been imported in the JavaScript entry file as an example.
-
-### Images
-
-Add your image files in the `src/images` directory. Similar to CSS files, you need to `import` image files in the JavaScript entry file (`index.js`). Then go into the HTML and add an `img` element with the `src` attribute pointing to the `images` directory. There is an example in the `index.html` file for you to see.
-
-## How to View Your Code in Action
-
-In the terminal, run:
-
-```bash
-npm start
-```
-
-You will see a bunch of lines output to your terminal. One of those lines will be something like:
-
-```bash
-Project is running at http://localhost:8080/
-```
-
-Go to `http://localhost:8080/` in your browser to view your code running in the browser.
-
+---
+# A²B
+###### Where ya headed? 
 ---
 
-## Test Files Organization
+## Table of Contents
+* [Introduction](#introduction)
+* [Setup](#setup)
+* [Features](#features)
+* [Technologies](#technologies)
+* [Deployment](#deployment)
+* [Authors](#authors)
 
-Similar to feature code, your test code needs to be put in a specific place for it to run successfully.
+## Introduction
 
-**Put all of your test files in the `test` directory.** As a convention, all test filenames should end with `-test.js`. For instance: `box-test.js`.
 
-## Running Your Tests
 
-Run your test suite using the command:
+#### Motivation
 
-```bash
-npm test
-```
+This was made so that a user can see their data displayed in a readable and orderly fashion. The details of this project are outlined in [this project spec](http://frontend.turing.io/projects/fitlit.html). 
 
-The test results will output to the terminal.
+## Setup
 
+To get started on this project: 
+
+1. should fork this repo - on the top right corner of this page, click the **Fork** button.
+2. Clone down the repo by opening your terminal and running `git clone [remote-address]`
+3. Once you have cloned the repo, change into the directory and install the project dependencies by running `npm install` in your terminal.
+4. Run `open src/index.html` in the terminal to see the page. 
+5. _**Git Fit!**_
+
+## Features
+
+The current user is randomly chosen from a `UserRepository` class upon the opening of the page. So, everytime the page is refreshed a different user's information and logged health statistics are displayed. 
+
+<p align = "center">
+<img src="https://i.imgur.com/AeJJaLA.png">
+</p>
+
+The page displays 4 differenct sections: 
+1. User's Information
+* Displays a percentage of the user's personal info.
+2. User's Activity
+* Displays the user's Activity stats for the most recent day and week as well as their rank among all of the users
+3. User's Hydration
+* Displays how much water a user drank on the latest day, assuming that the goal is to drink 10 cups, and their hydration log entries from the latest week.
+4. User's Sleep
+* Displays the quality of a user's sleep on a scale of 1 to 5 and the hours of sleep they got, assuming that 8 hours is the goal. These are displayed for the latest day, the latest week, and the user's all time average. 
+
+The small question marks in the corners of some widgets are to explain the information that is displayed when hovered over. For example, the sleep charts' question mark shows that sleep quality is judged based on a scale of 0 to 5. 
+
+The current user's information is displayed from a `User` class that is instantiated within the `UserRepository` class as soon as the page loads. Then the each user is assigned a `WellnessLog` object instance that contains all of the user's documented activity, hydration, and sleep data. Then, all users' data is logged into a `SleepRepository`, `ActivityRepository`, and `HydrationRepository`, where methods calculate information about all users' wellness data. 
+
+Charts are used to display some of the user's data. The charts were created using `Chart js`.
+
+The User Info Area displays a percentage of the user's personal info.
+
+
+#### 
+
+#### Continuous Improvement/Future Improvements
+ In the next iteration we hope to add:
+  * Update the date formats to make them more readable
+  * Make drag-and-drop widgets to display all of the information that is readily available in the code 
+  * Allow users to begin making profiles
 ---
 
-## Linting Your Code
+## Technologies
 
-Run the command in your terminal `npm run lint` to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit - the linter is still running successfully.
+1. Vanilla JavaScript
+2. CSS 
+3. HTML
+4. `Chart js`
+5. `Moment js`
 
-Your linter will look at the JavaScript files you have within the `src` directory and the `test` directory. 
+## Deployment
 
-## Webpack?
+The site can be reached at this [link](https://richardltyler.github.io/GitFit/src/index.html).
 
-If you look in the `package.json` file, you'll see one of the library dependencies called `webpack`. If you're interested in learning more about what Webpack is and how it works behind the scenes, take a look through the [Webpack configuration documentation](https://webpack.js.org/concepts/).
+## Authors
+<table>
+    <tr>
+        <td> Kelly Dinneen <a href="https://github.com/kellydinneen">GH</td>
+        <td> Richard Tyler <a href="https://github.com/richardltyler">GH</td>
+    </tr>
+<td><img src="https://avatars3.githubusercontent.com/u/70412553?s=400&u=6889ab0a2470a8c4d85c90de53761b160bb9fea6&v=4" alt="Ms. Dinneen"
+ width="150" height="auto" /></td>
+ <td><img src="https://avatars3.githubusercontent.com/u/70095063?s=460&u=39c274f1a2fbb88cc013de61aa8307596a988255&v=4" alt="Mr. Tyler"
+ width="150" height="auto" /></td>
+</table>
 
-## Deploying to GitHub Pages
 
-_If you are finished with the functionality and testing of your project_, then you can consider deploying your project to the web! This way anyone can play it without cloning down your repo.
 
-[GitHub Pages](https://pages.github.com/) is a great way to deploy your project to the web. Don't worry about this until your project is free of bugs and well tested!
-
-If you _are_ done, you can follow [this procedure](./gh-pages-procedure.md) to get your project live on GitHub Pages.
